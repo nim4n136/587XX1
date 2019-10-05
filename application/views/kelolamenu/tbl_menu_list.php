@@ -4,24 +4,27 @@
 
         <div class="row">
             <div class="col-xs-12">
-                <div class="box box-warning box-solid">
+                <div class="box box-success">
 
                     <div class="box-header">
                         <h3 class="box-title">SETTING TAMPILAN MENU</h3>
                     </div>
 
                     <div class="box-body">
-                        <?php echo form_open('kelolamenu/simpan_setting')?>
+                        <?= form_open('admin/kelolamenu/simpan_setting') ?>
                         <table class="table table-bordered">
-                            <tr><td width="250">Tampilkan Menu Berdasarkan Level</td><td>
-                                    
-                                    <?php
-                                    echo form_dropdown('tampil_menu',array('ya'=>'YA','tidak'=>'TIDAK'),$setting['value'],array('class'=>'form-control'));
-                                    ?>
-                                </td></tr>
-                            <tr><td></td><td><button type="submit" class="btn btn-danger btn-sm">Simpan Perubahan</button></td></tr>
+                            <tr>
+                                <td width="250">Tampilkan Menu Berdasarkan Level</td>
+                                <td>
+                                    <?= form_dropdown('tampil_menu', array('ya' => 'YA', 'tidak' => 'TIDAK'), $setting['value'], array('class' => 'form-control')); ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><button type="submit" class="btn btn-primary btn-sm">Simpan Perubahan</button></td>
+                            </tr>
                         </table>
-                    </form>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -29,7 +32,7 @@
 
         <div class="row">
             <div class="col-xs-12">
-                <div class="box box-warning box-solid">
+                <div class="box box-success">
 
                     <div class="box-header">
                         <h3 class="box-title">KELOLA DATA MENU</h3>
@@ -37,19 +40,18 @@
 
                     <div class="box-body">
                         <div style="padding-bottom: 10px;"'>
-                            <?php echo anchor(site_url('kelolamenu/create'), '<i class="fa fa-wpforms" aria-hidden="true"></i> Tambah Data', 'class="btn btn-danger btn-sm"'); ?>
-                            <?php //echo anchor(site_url('kelolamenu/excel'), '<i class="fa fa-file-excel-o" aria-hidden="true"></i> Export Ms Excel', 'class="btn btn-success btn-sm"'); ?>
-                            <?php //echo anchor(site_url('kelolamenu/word'), '<i class="fa fa-file-word-o" aria-hidden="true"></i> Export Ms Word', 'class="btn btn-primary btn-sm"'); ?></div>
+                            <?= anchor(site_url('admin/kelolamenu/create'), '<i class="fa fa-wpforms" aria-hidden="true"></i> Tambah Data', 'class="btn btn-success btn-sm"'); ?>
+                        </div>
                         <table class="table table-bordered table-striped" id="mytable">
                             <thead>
                                 <tr>
                                     <th width="30px">No</th>
-                                    <th>Title</th>
-                                    <th>Url</th>
-                                    <th>Icon</th>
-                                    <th>Is Main Menu</th>
-                                    <th>Is Aktif</th>
-                                    <th width="100px">Action</th>
+                                    <th>TITLE</th>
+                                    <th>URL</th>
+                                    <th>ICON</th>
+                                    <th>MAIN MENU</th>
+                                    <th>AKTIF</th>
+                                    <th width="100px">ACTIONS</th>
                                 </tr>
                             </thead>
 
@@ -81,39 +83,4 @@
         var t = $("#mytable").dataTable({
             initComplete: function() {
                 var api = this.api();
-                $('#mytable_filter input')
-                .off('.DT')
-                .on('keyup.DT', function(e) {
-                    if (e.keyCode == 13) {
-                        api.search(this.value).draw();
-                    }
-                });
-            },
-            oLanguage: {
-                sProcessing: "loading..."
-            },
-            processing: true,
-            serverSide: true,
-            ajax: {"url": "kelolamenu/json", "type": "POST"},
-            columns: [
-                {
-                    "data": "id_menu",
-                    "orderable": false
-                },{"data": "title"},{"data": "url"},{"data": "icon"},{"data": "is_main_menu"},{"data": "is_aktif"},
-                {
-                    "data" : "action",
-                    "orderable": false,
-                    "className" : "text-center"
-                }
-            ],
-            order: [[0, 'desc']],
-            rowCallback: function(row, data, iDisplayIndex) {
-                var info = this.fnPagingInfo();
-                var page = info.iPage;
-                var length = info.iLength;
-                var index = page * length + (iDisplayIndex + 1);
-                $('td:eq(0)', row).html(index);
-            }
-        });
-    });
-</script>
+                $(' #mytable_filter input') .off('.DT') .on('keyup.DT', function(e) { if (e.keyCode==13) { api.search(this.value).draw(); } }); }, oLanguage: { sProcessing: "loading..." }, processing: true, serverSide: true, ajax: {"url": "kelolamenu/json" , "type" : "POST" }, columns: [ { "data" : "id_menu" , "orderable" : false },{"data": "title" },{"data": "url" },{"data": "icon" },{"data": "is_main_menu" },{"data": "is_aktif" }, { "data" : "action" , "orderable" : false, "className" : "text-center" } ], order: [[0, 'desc' ]], rowCallback: function(row, data, iDisplayIndex) { var info=this.fnPagingInfo(); var page=info.iPage; var length=info.iLength; var index=page * length + (iDisplayIndex + 1); $('td:eq(0)', row).html(index); } }); }); </script>

@@ -2,7 +2,7 @@
     <section class="content">
         <div class="row">
             <div class="col-xs-12">
-                <div class="box box-warning box-solid">
+                <div class="box box-success">
     
                     <div class="box-header">
                         <h3 class="box-title">KELOLA DATA USER</h3>

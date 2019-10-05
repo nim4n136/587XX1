@@ -1,19 +1,12 @@
-<html>
-    <head>
-        <title>Blokir Akses</title>
-        <style type="text/css">
-            .box{
-                width: 600px;
-                border: 1px black dashed;
-                padding: 20px;
-                text-align: center;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="box">
-            <p>Anda Tidak Boleh Mengakses Halaman Ini</p>
-            <p>Silahkan Hubungi Administrator</p>
-        </div>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Akses di tolak</title>
+</head>
+<body>
+    <h1>Akses di tolak</h1>
+</body>
 </html>
