@@ -4,7 +4,7 @@ application/cache/*
 !application/cache/index.html
 !application/cache/.htaccess
 assets/upload/*
-harviacode/
+/harviacode
 application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
