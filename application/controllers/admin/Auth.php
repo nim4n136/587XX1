@@ -9,7 +9,7 @@ Class Auth extends CI_Controller{
         $email      = $this->input->post('email');
         $password = $this->input->post('password',TRUE);
         $hashPass = password_hash($password,PASSWORD_DEFAULT);
-        $test     = password_verify($password, $hashPass);
+        
         // query chek users
         $this->db->where('email',$email);
         $users       = $this->db->get('tbl_user');

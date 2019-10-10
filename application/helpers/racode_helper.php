@@ -58,8 +58,9 @@ function is_login()
     $ci = get_instance();
     if (!$ci->session->userdata('id_users')) {
         redirect('admin/auth');
-    } else {
-        $modul = $ci->uri->segment(1);
+    }
+     else {
+        $modul = $ci->uri->segment(1)."/".$ci->uri->segment(2);
 
         $id_user_level = $ci->session->userdata('id_user_level');
         // dapatkan id menu berdasarkan nama controller

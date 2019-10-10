@@ -2,26 +2,50 @@
     <section class="content">
         <div class="row">
             <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header">
-                        <h3 class="box-title">Kelola siswa</h3>
+                <h3 style="margin-top:0px; padding-top:0px;"><i class="fa fa-dashboard"></i> Dashboard</h3>
+            </div>
+
+            <div class="col-lg-4 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3> <?= $hasil_test ?></h3>
+
+                        <p>Hasil TEST</p>
                     </div>
-                    <div class="box-body">
-                        <div style="padding-bottom: 10px;"'>
-                        <table class="table table-bordered table-striped" id="mytable">
-                            <thead>
-                                <tr>
-                                    <th width="30px">No</th>
-                                    <th>Title</th>
-                                    <th>Url</th>
-                                    <th>Icon</th>
-                                    <th>Is Main Menu</th>
-                                    <th>Is Aktif</th>
-                                    <th width="100px">Action</th>
-                                </tr>
-                            </thead>
-                        </table>
+                    <div class="icon">
+                        <i class="ion ion-edit"></i>
                     </div>
+                    <a href="<?= site_url("admin/hasil") ?>" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3> <?= $peserta ?></h3>
+
+                        <p>Peserta</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person"></i>
+                    </div>
+                    <a href="<?= site_url("admin/peserta") ?>" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-orange">
+                    <div class="inner">
+                        <h3> <?= $kelas ?></h3>
+
+                        <p>Kelas</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="<?= site_url("admin/kelas") ?>" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
