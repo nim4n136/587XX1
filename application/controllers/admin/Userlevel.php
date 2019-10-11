@@ -25,21 +25,6 @@ class Userlevel extends CI_Controller
         echo $this->User_level_model->json();
     }
 
-    public function read($id)
-    {
-        $row = $this->User_level_model->get_by_id($id);
-        if ($row) {
-            $data = array(
-                'id_user_level' => $row->id_user_level,
-                'nama_level' => $row->nama_level,
-            );
-            $this->template->load('template', 'userlevel/tbl_user_level_read', $data);
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('userlevel'));
-        }
-    }
-
     function akses()
     {
         $data['level'] = $this->db->get_where('tbl_user_level', array('id_user_level' =>  $this->uri->segment(3)))->row_array();
@@ -68,7 +53,7 @@ class Userlevel extends CI_Controller
     {
         $data = array(
             'button' => 'Create',
-            'action' => site_url('userlevel/create_action'),
+            'action' => site_url('admin/userlevel/create_action'),
             'id_user_level' => set_value('id_user_level'),
             'nama_level' => set_value('nama_level'),
         );
@@ -88,7 +73,7 @@ class Userlevel extends CI_Controller
 
             $this->User_level_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('userlevel'));
+            redirect(site_url('admin/userlevel'));
         }
     }
 
@@ -99,14 +84,14 @@ class Userlevel extends CI_Controller
         if ($row) {
             $data = array(
                 'button' => 'Update',
-                'action' => site_url('userlevel/update_action'),
+                'action' => site_url('admin/userlevel/update_action'),
                 'id_user_level' => set_value('id_user_level', $row->id_user_level),
                 'nama_level' => set_value('nama_level', $row->nama_level),
             );
             $this->template->load('template', 'userlevel/tbl_user_level_form', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('userlevel'));
+            redirect(site_url('admin/userlevel'));
         }
     }
 
@@ -123,7 +108,7 @@ class Userlevel extends CI_Controller
 
             $this->User_level_model->update($this->input->post('id_user_level', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('userlevel'));
+            redirect(site_url('admin/userlevel'));
         }
     }
 
@@ -134,10 +119,10 @@ class Userlevel extends CI_Controller
         if ($row) {
             $this->User_level_model->delete($id);
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('userlevel'));
+            redirect(site_url('admin/userlevel'));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('userlevel'));
+            redirect(site_url('admin/userlevel'));
         }
     }
 
@@ -149,55 +134,4 @@ class Userlevel extends CI_Controller
         $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 
-    public function excel()
-    {
-        $this->load->helper('exportexcel');
-        $namaFile = "tbl_user_level.xls";
-        $judul = "tbl_user_level";
-        $tablehead = 0;
-        $tablebody = 1;
-        $nourut = 1;
-        //penulisan header
-        header("Pragma: public");
-        header("Expires: 0");
-        header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
-        header("Content-Type: application/force-download");
-        header("Content-Type: application/octet-stream");
-        header("Content-Type: application/download");
-        header("Content-Disposition: attachment;filename=" . $namaFile . "");
-        header("Content-Transfer-Encoding: binary ");
-
-        xlsBOF();
-
-        $kolomhead = 0;
-        xlsWriteLabel($tablehead, $kolomhead++, "No");
-        xlsWriteLabel($tablehead, $kolomhead++, "Nama Level");
-
-        foreach ($this->User_level_model->get_all() as $data) {
-            $kolombody = 0;
-
-            //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
-            xlsWriteNumber($tablebody, $kolombody++, $nourut);
-            xlsWriteLabel($tablebody, $kolombody++, $data->nama_level);
-
-            $tablebody++;
-            $nourut++;
-        }
-
-        xlsEOF();
-        exit();
-    }
-
-    public function word()
-    {
-        header("Content-type: application/vnd.ms-word");
-        header("Content-Disposition: attachment;Filename=tbl_user_level.doc");
-
-        $data = array(
-            'tbl_user_level_data' => $this->User_level_model->get_all(),
-            'start' => 0
-        );
-
-        $this->load->view('userlevel/tbl_user_level_doc', $data);
-    }
 }

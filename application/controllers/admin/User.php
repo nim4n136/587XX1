@@ -41,7 +41,7 @@ class User extends CI_Controller
             $this->template->load('template', 'user/tbl_user_read', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('user'));
+            redirect(site_url('admin/user'));
         }
     }
 
@@ -49,7 +49,7 @@ class User extends CI_Controller
     {
         $data = array(
             'button'        => 'Create',
-            'action'        => site_url('user/create_action'),
+            'action'        => site_url('admin/user/create_action'),
             'id_users'      => set_value('id_users'),
             'full_name'     => set_value('full_name'),
             'email'         => set_value('email'),
@@ -84,7 +84,7 @@ class User extends CI_Controller
 
             $this->User_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('user'));
+            redirect(site_url('admin/user'));
         }
     }
 
@@ -95,7 +95,7 @@ class User extends CI_Controller
         if ($row) {
             $data = array(
                 'button'        => 'Update',
-                'action'        => site_url('user/update_action'),
+                'action'        => site_url('admin/user/update_action'),
                 'id_users'      => set_value('id_users', $row->id_users),
                 'full_name'     => set_value('full_name', $row->full_name),
                 'email'         => set_value('email', $row->email),
@@ -107,7 +107,7 @@ class User extends CI_Controller
             $this->template->load('template', 'user/tbl_user_form', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('user'));
+            redirect(site_url('admin/user'));
         }
     }
 
@@ -140,7 +140,7 @@ class User extends CI_Controller
 
             $this->User_model->update($this->input->post('id_users', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('user'));
+            redirect(site_url('admin/user'));
         }
     }
 
@@ -164,10 +164,10 @@ class User extends CI_Controller
         if ($row) {
             $this->User_model->delete($id);
             $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('user'));
+            redirect(site_url('admin/user'));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('user'));
+            redirect(site_url('admin/user'));
         }
     }
 
