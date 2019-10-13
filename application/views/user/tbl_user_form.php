@@ -7,9 +7,10 @@
             </div>
             <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
 
-                <table class='table table-bordered>' <tr>
-                    <td width='200'>Nama Lengkap <?php echo form_error('full_name') ?></td>
-                    <td><input type="text" class="form-control" name="full_name" id="full_name" placeholder="Full Name" value="<?php echo $full_name; ?>" /></td>
+                <table class='table table-bordered'>
+                    <tr>
+                        <td width='200'>Nama Lengkap <?php echo form_error('full_name') ?></td>
+                        <td><input type="text" class="form-control" name="full_name" id="full_name" placeholder="Full Name" value="<?php echo $full_name; ?>" /></td>
                     </tr>
                     <tr>
                         <td width='200'>Email <?php echo form_error('email') ?></td>
@@ -17,20 +18,6 @@
 
                             <input type="text" class="form-control" name="email" id="email" placeholder="Email" value="<?php echo $email; ?>" /></td>
                     </tr>
-
-                    <?php
-                    if ($this->uri->segment(2) == 'create') {
-                        ?>
-
-                        <tr>
-                            <td width='200'>Password <?php echo form_error('password') ?></td>
-                            <td><input type="text" class="form-control" name="password" id="password" placeholder="Password" value="<?php echo $password; ?>" /></td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
-
-
                     <tr>
                         <td width='200'>Level User <?php echo form_error('id_user_level') ?></td>
                         <td>
@@ -48,6 +35,14 @@
                     <tr>
                         <td width='200'>Foto Profile <?php echo form_error('images') ?></td>
                         <td> <input type="file" name="images"></td>
+                    </tr>
+                    <tr>
+                        <td width='200'>Password <?php echo form_error('password') ?></td>
+                        <td><input type="password" class="form-control" name="password" id="password" placeholder="Password" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td width='200'>Konfirmasi Password <?php echo form_error('confirm_password') ?></td>
+                        <td><input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Konfirmasi Password" value="" /></td>
                     </tr>
                     <tr>
                         <td></td>

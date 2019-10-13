@@ -64,7 +64,7 @@ class User extends CI_Controller
 
     public function create_action()
     {
-        $this->_rules();
+        $this->_rules_create();
         $foto = $this->upload_foto();
         if ($this->form_validation->run() == FALSE) {
             $this->create();
@@ -99,7 +99,6 @@ class User extends CI_Controller
                 'id_users'      => set_value('id_users', $row->id_users),
                 'full_name'     => set_value('full_name', $row->full_name),
                 'email'         => set_value('email', $row->email),
-                'password'      => set_value('password', $row->password),
                 'images'        => set_value('images', $row->images),
                 'id_user_level' => set_value('id_user_level', $row->id_user_level),
                 'is_aktif'      => set_value('is_aktif', $row->is_aktif),
@@ -133,11 +132,13 @@ class User extends CI_Controller
                     'id_user_level' => $this->input->post('id_user_level', TRUE),
                     'is_aktif'      => $this->input->post('is_aktif', TRUE)
                 );
-
-                // ubah foto profil yang aktif
-                $this->session->set_userdata('images', $foto['file_name']);
             }
-
+            if ($this->input->post('password', TRUE) != "") {
+                $password       = $this->input->post('password', TRUE);
+                $options        = array("cost" => 4);
+                $hashPassword   = password_hash($password, PASSWORD_BCRYPT, $options);
+                $data["password"] = $hashPassword;
+            }
             $this->User_model->update($this->input->post('id_users', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
             redirect(site_url('admin/user'));
@@ -175,8 +176,26 @@ class User extends CI_Controller
     {
         $this->form_validation->set_rules('full_name', 'full name', 'trim|required');
         $this->form_validation->set_rules('email', 'email', 'trim|required');
-        //$this->form_validation->set_rules('password', 'password', 'trim|required');
+
+        $this->form_validation->set_rules('password', 'Password', 'trim');
+        $this->form_validation->set_rules('confirm_password', 'Konfirmasi Password', 'matches[password]');
+
         //$this->form_validation->set_rules('images', 'images', 'trim|required');
+        $this->form_validation->set_rules('id_user_level', 'id user level', 'trim|required');
+        $this->form_validation->set_rules('is_aktif', 'is aktif', 'trim|required');
+
+        $this->form_validation->set_rules('id_users', 'id_users', 'trim');
+        $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+    }
+
+    public function _rules_create()
+    {
+
+        $this->form_validation->set_rules('full_name', 'full name', 'trim|required');
+        $this->form_validation->set_rules('email', 'email', 'trim|required');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required');
+        $this->form_validation->set_rules('confirm_password', 'Konfirmasi Password', 'required|matches[password]');
+
         $this->form_validation->set_rules('id_user_level', 'id user level', 'trim|required');
         $this->form_validation->set_rules('is_aktif', 'is aktif', 'trim|required');
 
@@ -248,6 +267,65 @@ class User extends CI_Controller
 
     function profile()
     {
-        
+        $row = $this->User_model->get_by_id($this->session->userdata("id_users"));
+
+        if ($row) {
+            $data = array(
+                'button'        => 'Update',
+                'action'        => site_url('admin/user/profile_action'),
+                'id_users'      => set_value('id_users', $row->id_users),
+                'full_name'     => set_value('full_name', $row->full_name),
+                'email'         => set_value('email', $row->email),
+                'images'        => set_value('images', $row->images)
+            );
+            $this->template->load('template', 'user/profile_user_form', $data);
+        } else {
+            exit('Record Not Found');
+        }
+    }
+
+    function profile_action()
+    {
+        $row = $this->User_model->get_by_id($this->session->userdata("id_users"));
+
+        $this->form_validation->set_rules('full_name', 'full name', 'trim|required');
+        $this->form_validation->set_rules('email', 'email', 'trim|required');
+        $this->form_validation->set_rules('password', 'Password', 'trim');
+        $this->form_validation->set_rules('confirm_password', 'Konfirmasi Password', 'matches[password]');
+        $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+
+        $foto = $this->upload_foto();
+        if ($this->form_validation->run() == FALSE) {
+            $this->profile();
+        } else {
+            if ($foto['file_name'] == '') {
+                $data = array(
+                    'full_name'     => $this->input->post('full_name', TRUE),
+                    'email'         => $this->input->post('email', TRUE)
+                );
+            } else {
+                $data = array(
+                    'full_name'     => $this->input->post('full_name', TRUE),
+                    'email'         => $this->input->post('email', TRUE),
+                    'images'        => $foto['file_name']
+                );
+                // ubah foto profil yang aktif
+                $this->session->set_userdata('images', $foto['file_name']);
+            }
+            if ($this->input->post('password', TRUE) != "") {
+                $password       = $this->input->post('password', TRUE);
+                $options        = array("cost" => 4);
+                $hashPassword   = password_hash($password, PASSWORD_BCRYPT, $options);
+                $data["password"] = $hashPassword;
+            }
+            $this->User_model->update($this->session->userdata("id_users"), $data);
+            $this->session->set_flashdata('message', 'Update Profile success');
+            $this->db->where('email', $data["email"]);
+            $users       = $this->db->get('tbl_user');
+            $user = $users->row_array();
+            $this->session->set_userdata($user);
+
+            redirect(site_url('admin/user/profile'));
+        }
     }
 }
