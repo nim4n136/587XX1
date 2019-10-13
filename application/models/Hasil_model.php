@@ -18,7 +18,7 @@ class Hasil_model extends CI_Model
     // datatables
     function json(array $whereData = [])
     {
-        $this->datatables->select('id_hasil,tbl_peserta.nama as nama, tbl_peserta.email as email, tbl_gaya_belajar.nama as gaya_belajar,tbl_gaya_belajar.kode');
+        $this->datatables->select('id_hasil,tbl_peserta.nama as nama, tbl_peserta.email as email,id_gaya as gaya_belajar, persent');
         $this->datatables->from('tbl_hasil');
 
         // where kelas
@@ -27,7 +27,9 @@ class Hasil_model extends CI_Model
         }
         //add this line for join
         $this->datatables->join('tbl_peserta', 'tbl_hasil.id_peserta = tbl_peserta.id_peserta');
-        $this->datatables->join('tbl_gaya_belajar', 'tbl_hasil.id_gaya = tbl_gaya_belajar.id_gaya ');
+
+        $this->datatables->edit_column("gaya_belajar",'$1',"get_gaya_belajar(gaya_belajar)");
+        $this->datatables->edit_column("persent",'$1',"get_persent_gaya(persent)");
         $this->datatables->add_column(
             'action',
             anchor(site_url('admin/hasil/delete/$1'), '<i class="fa fa-trash-o" aria-hidden="true"></i>', 'class="btn btn-danger btn-sm" onclick="javasciprt: return confirm(\'Kamu yakin?\')"'),
@@ -54,9 +56,8 @@ class Hasil_model extends CI_Model
     function get_all()
     {
         $this->db->order_by($this->id, $this->order);
-        $this->db->select('id_hasil,tbl_kelas.nama as kelas,tbl_peserta.nama as nama, tbl_peserta.email as email, tbl_gaya_belajar.nama as gaya_belajar,tbl_gaya_belajar.kode');
+        $this->db->select('id_hasil,tbl_kelas.nama as kelas,tbl_peserta.nama as nama, tbl_peserta.email as email, id_gaya, persent');
         $this->db->join('tbl_peserta', 'tbl_hasil.id_peserta = tbl_peserta.id_peserta');
-        $this->db->join('tbl_gaya_belajar', 'tbl_hasil.id_gaya = tbl_gaya_belajar.id_gaya');
         $this->db->join('tbl_kelas', 'tbl_peserta.id_kelas = tbl_kelas.id_kelas');
         return $this->db->get($this->table)->result();
     }

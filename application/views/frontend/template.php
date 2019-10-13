@@ -14,11 +14,22 @@
 <style>
   body {
     background-color: #f5f5f5;
+
+  }
+
+  @media print {
+    .no-print {
+      display: none;
+    }
+
+    .printme {
+      display: block;
+    }
   }
 </style>
 
 <body>
-  <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" style="border-top:6px solid #007bff!important">
+  <nav class="navbar no-print navbar-expand-md navbar-light bg-white shadow-sm" style="border-top:6px solid #007bff!important">
     <div class="container">
       <a class="navbar-brand" href="<?= site_url() ?>">TEST GAYA BELAJAR</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +63,7 @@
     <?= $contents ?>
   </div>
 
-  <footer class="footer mt-auto pb-2 pt-4">
+  <footer class="footer mt-auto pb-2 pt-4 no-print">
     <div class="container">
       <p class="text-muted text-center">Copyright &copy; 2019</p>
     </div>

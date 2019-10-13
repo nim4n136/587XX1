@@ -33,6 +33,7 @@ class Gayabelajar extends CI_Controller
             'id_gaya' => set_value('id_gaya'),
             'nama' => set_value('nama'),
             'saran' => set_value('saran'),
+            'metode_cocok' => set_value('metode_cocok'),
             'keterangan' => set_value('keterangan'),
             'kode' => set_value('kode')
         );
@@ -50,6 +51,8 @@ class Gayabelajar extends CI_Controller
                 'nama' => $this->input->post('nama', TRUE),
                 'kode' => $this->input->post('kode', TRUE),
                 'saran' => $this->input->post('saran', TRUE),
+                'metode_cocok' => $this->input->post('metode_cocok', TRUE),
+                
                 'keterangan' => $this->input->post('keterangan', TRUE)
             );
 
@@ -70,6 +73,8 @@ class Gayabelajar extends CI_Controller
                 'id_gaya' => set_value('id_gaya', $row->id_gaya),
                 'nama' => set_value('nama', $row->nama),
                 'saran' => set_value('saran', $row->saran),
+                'metode_cocok' => set_value('metode_cocok', $row->metode_cocok),
+                
                 'kode' =>  set_value('saran', $row->kode),
                 'keterangan' => set_value('keterangan',  $row->keterangan)
             );
@@ -91,6 +96,8 @@ class Gayabelajar extends CI_Controller
                 'nama' => $this->input->post('nama', TRUE),
                 'saran' => $this->input->post('saran', TRUE),
                 'kode' => $this->input->post('kode', TRUE),
+                'metode_cocok' => $this->input->post('metode_cocok', TRUE),
+                
                 'keterangan' => $this->input->post('keterangan', TRUE)
             );
 
@@ -119,7 +126,8 @@ class Gayabelajar extends CI_Controller
         $this->form_validation->set_rules('nama', 'nama', 'trim|required');
         $this->form_validation->set_rules('kode', 'kode', 'trim|required');
         $this->form_validation->set_rules('saran', 'saran', 'trim|required');
-
+        $this->form_validation->set_rules('metode_cocok', 'metode_cocok', 'trim|required');
+        
         $this->form_validation->set_rules('id_gaya', 'id_gaya', 'trim');
         $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }

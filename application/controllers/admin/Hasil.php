@@ -46,47 +46,47 @@ class Hasil extends CI_Controller
             redirect(site_url('admin/hasil'));
         }
     }
-    public function excel()
-    {
-        $this->load->helper('exportexcel');
-        $namaFile = "hasil_peserta.xls";
-        $judul = "tbl_hasil";
-        $tablehead = 0;
-        $tablebody = 1;
-        $nourut = 1;
-        //penulisan header
-        header("Pragma: public");
-        header("Expires: 0");
-        header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
-        header("Content-Type: application/force-download");
-        header("Content-Type: application/octet-stream");
-        header("Content-Type: application/download");
-        header("Content-Disposition: attachment;filename=" . $namaFile . "");
-        header("Content-Transfer-Encoding: binary ");
+    // public function excel()
+    // {
+    //     $this->load->helper('exportexcel');
+    //     $namaFile = "hasil_peserta.xls";
+    //     $judul = "tbl_hasil";
+    //     $tablehead = 0;
+    //     $tablebody = 1;
+    //     $nourut = 1;
+    //     //penulisan header
+    //     header("Pragma: public");
+    //     header("Expires: 0");
+    //     header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
+    //     header("Content-Type: application/force-download");
+    //     header("Content-Type: application/octet-stream");
+    //     header("Content-Type: application/download");
+    //     header("Content-Disposition: attachment;filename=" . $namaFile . "");
+    //     header("Content-Transfer-Encoding: binary ");
 
-        xlsBOF();
+    //     xlsBOF();
 
-        $kolomhead = 0;
-        xlsWriteLabel($tablehead, $kolomhead++, "No");
-        xlsWriteLabel($tablehead, $kolomhead++, "Nama");
-        xlsWriteLabel($tablehead, $kolomhead++, "Alamat Email");
-        xlsWriteLabel($tablehead, $kolomhead++, "Gaya Belajar");
+    //     $kolomhead = 0;
+    //     xlsWriteLabel($tablehead, $kolomhead++, "No");
+    //     xlsWriteLabel($tablehead, $kolomhead++, "Nama");
+    //     xlsWriteLabel($tablehead, $kolomhead++, "Alamat Email");
+    //     xlsWriteLabel($tablehead, $kolomhead++, "Gaya Belajar");
 
-        foreach ($this->Hasil_model->get_all() as $data) {
-            $kolombody = 0;
+    //     foreach ($this->Hasil_model->get_all() as $data) {
+    //         $kolombody = 0;
 
-            //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
-            xlsWriteNumber($tablebody, $kolombody++, $nourut);
-            xlsWriteLabel($tablebody, $kolombody++, $data->nama);
-            xlsWriteLabel($tablebody, $kolombody++, $data->email);
-            xlsWriteLabel($tablebody, $kolombody++, $data->gaya_belajar);
+    //         //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
+    //         xlsWriteNumber($tablebody, $kolombody++, $nourut);
+    //         xlsWriteLabel($tablebody, $kolombody++, $data->nama);
+    //         xlsWriteLabel($tablebody, $kolombody++, $data->email);
+    //         xlsWriteLabel($tablebody, $kolombody++, $data->gaya_belajar);
 
-            $tablebody++;
-            $nourut++;
-        }
+    //         $tablebody++;
+    //         $nourut++;
+    //     }
 
-        xlsEOF();
-    }
+    //     xlsEOF();
+    // }
 
     public function word()
     {

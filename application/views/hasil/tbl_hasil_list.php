@@ -33,8 +33,8 @@
                     </div>
                     <div class="box-body">
                         <div style="padding-bottom: 10px;">
-                            <?= anchor(site_url('admin/hasil/excel'), '<i class="fa fa-file-excel-o" aria-hidden="true"></i> Export Ms Excel', 'class="btn btn-success btn-sm"'); ?>
-                            <?= anchor(site_url('admin/hasil/word'), '<i class="fa fa-file-word-o" aria-hidden="true"></i> Export Ms Word', 'class="btn btn-primary btn-sm"'); ?></div>
+                            <!-- <?= anchor(site_url('admin/hasil/excel'), '<i class="fa fa-file-excel-o" aria-hidden="true"></i> Export Ms Excel', 'class="btn btn-success btn-sm"'); ?> -->
+                            <?= anchor(site_url('admin/hasil/word'), '<i class="fa fa-file-word-o" aria-hidden="true"></i> Export data', 'class="btn btn-primary btn-sm"'); ?></div>
                         <table class="table table-bordered table-striped" id="mytable">
                             <thead>
                                 <tr>
@@ -42,6 +42,7 @@
                                     <th>Nama Peserta</th>
                                     <th>Alamat Email</th>
                                     <th>Gaya Belajar</th>
+                                    <th>Persentasi</th>
                                     <th width="200px">Aksi</th>
                                 </tr>
                             </thead>
@@ -101,6 +102,8 @@
                 "data" : "email"
             }, {
                 "data": "gaya_belajar"
+            }, {
+                "data": "persent"
             }, {
                 "data": "action",
                 "orderable": false,

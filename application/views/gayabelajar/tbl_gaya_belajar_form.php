@@ -18,6 +18,11 @@
                         <td width='200'>Keterangan <?= form_error('keterangan') ?></td>
                         <td> <textarea class="form-control" rows="3" name="keterangan" id="keterangan" placeholder="Keterangan"><?= $keterangan; ?></textarea></td>
                     </tr>
+                    
+                    <tr>
+                        <td width='200'>Metode gaya belajar yang cocok <?= form_error('metode_cocok') ?></td>
+                        <td> <textarea class="form-control" rows="3" name="metode_cocok" id="metode_cocok" placeholder="Metode gaya belajar yang cocok"><?= $metode_cocok; ?></textarea></td>
+                    </tr>
                     <tr>
                         <td width='200'>Saran <?= form_error('saran') ?></td>
                         <td> <textarea class="form-control" rows="3" name="saran" id="saran" placeholder="Saran"><?= $saran; ?></textarea></td>

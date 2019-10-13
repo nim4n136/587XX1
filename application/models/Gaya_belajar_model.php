@@ -72,6 +72,11 @@ class Gaya_belajar_model extends CI_Model
         $this->db->update($this->table, $data);
     }
 
+
+    function where_data(array $where){
+        $this->db->where($where);
+        return $this->db->get($this->table)->row();
+    }
     // delete data
     function delete($id)
     {

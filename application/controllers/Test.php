@@ -41,12 +41,40 @@ class Test extends CI_Controller
         }
         $count = array_count_values($input);
 
-        // ambil data terbesar dari gaya belajar yang di pilih
-        $id_gaya = array_search(max($count), $count);
+
+        $count_max = [];
+        foreach($count as $key => $extract){
+            $count_max[$extract][] = $key;
+        }
+        $max_value = max(array_keys($count_max));
+        $max_gaya = $count_max[ $max_value];
+
+        $persent = [];
+        $total =  array_sum($count);
+        foreach($count as $key => $value){
+            $persent[$key] = ((int)$value *100) /$total;
+        }
+        $getgaya = $this->Gaya_belajar_model->get_all();
+        $datagaya = [];
+        foreach($getgaya as $gaya){
+            $datagaya[$gaya->id_gaya] = $gaya;    
+        }
+
+
+        $result_persent = [];
+        foreach($persent as $key => $persent){
+            $result_persent[$key] = [
+                "persent" => $persent,
+                "gaya"    => $datagaya[$key]->nama,
+                "id_gaya"    => $datagaya[$key]->id_gaya
+
+            ];
+        }
 
         $this->Hasil_model->insert(array(
             "id_peserta" => $this->session->userdata("id_peserta"),
-            "id_gaya"   => $id_gaya
+            "id_gaya"   => json_encode(  $max_gaya),
+            "persent"   => json_encode($result_persent),
         ));
 
         return redirect(site_url("test/hasil"));
@@ -55,12 +83,20 @@ class Test extends CI_Controller
     public function hasil()
     {
         $hasil = $this->Hasil_model->where_data(array("id_peserta" => $this->session->userdata("id_peserta")));
-        if (!$hasil) {
+        if (!$hasil || $this->session->userdata("id_peserta") == NULL) {
             return redirect(site_url());
         }
-        $gaya_belajar = $this->Gaya_belajar_model->get_by_id($hasil->id_gaya);
+        $id_gaya = json_decode($hasil->id_gaya);
+        foreach($id_gaya as $id){
+            $gaya_belajar[$id] =  $this->Gaya_belajar_model->get_by_id($id);;
+        }
+        $persent = json_decode($hasil->persent,true);
+        usort($persent, function($a, $b) {
+            return $a['persent'] < $b['persent'];
+        });
         $this->template->load('frontend/template', 'frontend/hasil-test', array(
             "title" => "Hasil",
+            "persent" => $persent,
             "gaya_belajar" => $gaya_belajar
         ));
     }

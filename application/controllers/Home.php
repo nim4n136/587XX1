@@ -26,7 +26,7 @@ class Home extends CI_Controller
     public function index()
     {
         $hasil = $this->Hasil_model->where_data(array("id_peserta" => $this->session->userdata("id_peserta")));
-        if ($hasil) {
+        if ($hasil and  $this->session->userdata("id_peserta")) {
             return redirect(site_url("test/hasil"));
         }
         $gaya_belajar = $this->Gaya_belajar_model->get_all();
@@ -75,8 +75,11 @@ class Home extends CI_Controller
                 echo "terjadi kesalahan";
                 return;
             }
+            $get_by_email = $this->Peserta_model->where_data(["email" =>  $this->input->post("email")]);
+
             $this->session->set_userdata(
                 array(
+                    "id_peserta"    => $get_by_email->id_peserta,
                     "nama" => $this->input->post("nama"),
                     "id_kelas" => $this->input->post("id_kelas"),
                     "email" => $this->input->post("email"),
