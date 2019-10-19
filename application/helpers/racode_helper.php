@@ -130,6 +130,25 @@ function get_gaya_belajar($ids)
     return $extract;
 }
 
+
+
+function methode_gaya_belajar($ids)
+{
+    $ci = get_instance();
+    $ci->load->model('Gaya_belajar_model');
+
+    $hasil = [];
+    $data = json_decode($ids);
+    foreach ($data as $value) {
+        $get = $ci->Gaya_belajar_model->where_data(array("id_gaya" => $value));
+        $hasil[] = $get->metode_cocok;
+    }
+    $extract = implode(", ", $hasil);
+    return $extract;
+}
+
+
+
 function get_persent_gaya($persent, $plain_text = false)
 {
     $ci = get_instance();

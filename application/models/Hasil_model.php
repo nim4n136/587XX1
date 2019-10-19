@@ -16,7 +16,7 @@ class Hasil_model extends CI_Model
     }
 
     // datatables
-    function json(array $whereData = [])
+    function json(array $whereData = [], array $like = [])
     {
         $this->datatables->select('id_hasil,tbl_peserta.nama as nama, tbl_peserta.email as email,id_gaya as gaya_belajar, persent');
         $this->datatables->from('tbl_hasil');
@@ -25,11 +25,17 @@ class Hasil_model extends CI_Model
         if (!empty($whereData)) {
             $this->datatables->where($whereData);
         }
+        if(!empty($like)){
+            $this->datatables->like($like);
+        }
+
         //add this line for join
         $this->datatables->join('tbl_peserta', 'tbl_hasil.id_peserta = tbl_peserta.id_peserta');
 
-        $this->datatables->edit_column("gaya_belajar",'$1',"get_gaya_belajar(gaya_belajar)");
-        $this->datatables->edit_column("persent",'$1',"get_persent_gaya(persent)");
+        $this->datatables->edit_column("gaya_belajar", '$1', "get_gaya_belajar(gaya_belajar)");
+        $this->datatables->edit_column("persent", '$1', "get_persent_gaya(persent)");
+        $this->datatables->add_column("methode", '$1', "methode_gaya_belajar(gaya_belajar)");
+        
         $this->datatables->add_column(
             'action',
             anchor(site_url('admin/hasil/delete/$1'), '<i class="fa fa-trash-o" aria-hidden="true"></i>', 'class="btn btn-danger btn-sm" onclick="javasciprt: return confirm(\'Kamu yakin?\')"'),
@@ -38,7 +44,8 @@ class Hasil_model extends CI_Model
         return $this->datatables->generate();
     }
 
-    public function export(array $whereData = []){
+    public function export(array $whereData = [])
+    {
         $this->db->select('id_hasil,tbl_peserta.nama as nama, tbl_peserta.email as email, tbl_gaya_belajar.nama as gaya_belajar,tbl_gaya_belajar.kode');
         $this->db->from('tbl_hasil');
 
@@ -69,7 +76,8 @@ class Hasil_model extends CI_Model
         return $this->db->get($this->table)->row();
     }
 
-    function where_data(array $where){
+    function where_data(array $where)
+    {
         $this->db->where($where);
         return $this->db->get($this->table)->row();
     }

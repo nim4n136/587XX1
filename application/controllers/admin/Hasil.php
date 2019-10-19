@@ -13,6 +13,7 @@ class Hasil extends CI_Controller
         $this->load->library('form_validation');
         $this->load->library('datatables');
         $this->load->model('Kelas_model');
+        $this->load->model('Gaya_belajar_model');
     }
 
     public function index()
@@ -22,6 +23,8 @@ class Hasil extends CI_Controller
             'hasil/tbl_hasil_list',
             array(
                 "data_kelas" => $this->Kelas_model->get_all(),
+                "gaya_belajar" => $this->Gaya_belajar_model->get_all(),
+                "input_gaya" =>$this->input->get("input_gaya"), 
                 "id_kelas"  => $this->input->get("id_kelas")
             )
         );
@@ -30,7 +33,10 @@ class Hasil extends CI_Controller
     public function json()
     {
         header('Content-Type: application/json');
-        echo $this->Hasil_model->json(array("id_kelas" => $this->input->post('id_kelas')));
+        $likeGaya = [];
+        if($this->input->post("input_gaya"))
+            $likeGaya = array("id_gaya" => $this->input->post("input_gaya"));
+        echo $this->Hasil_model->json(array("id_kelas" => $this->input->post('id_kelas')), $likeGaya);
     }
 
     public function delete($id)

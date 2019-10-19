@@ -14,6 +14,16 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
+                            <?php if($id_kelas){ ?>
+                            <div class="form-group">
+                                <select name="input_gaya" class="form-control">
+                                    <option value="" disabled selected> -- Silahkan Pilih Gaya Belajar --</option>
+                                    <?php foreach ($gaya_belajar as $gaya) : ?>
+                                        <option <?=  $gaya->id_gaya == $input_gaya ? "selected" : "" ?> value="<?= $gaya->id_gaya ?>"><?= $gaya->nama ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <?php } ?>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary btn-sm">
                                     Submit
@@ -42,6 +52,7 @@
                                     <th>Nama Peserta</th>
                                     <th>Alamat Email</th>
                                     <th>Gaya Belajar</th>
+                                    <th>Metode Belajar</th>
                                     <th>Persentasi</th>
                                     <th width="200px">Aksi</th>
                                 </tr>
@@ -89,7 +100,8 @@
                 "url": "hasil/json",
                 "type": "POST",
                 "data" : {
-                    "id_kelas" : <?= $id_kelas ?>
+                    "id_kelas" : <?= $id_kelas ?>,
+                    "input_gaya" : <?= $input_gaya ?  $input_gaya : '""' ?>
                 }
             },
             columns: [{
@@ -102,6 +114,9 @@
                 "data" : "email"
             }, {
                 "data": "gaya_belajar"
+            },
+            {
+                "data": "methode"
             }, {
                 "data": "persent"
             }, {
